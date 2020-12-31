@@ -1,4 +1,6 @@
 target/
 build/
+logger_archive/
 .idea/
 *.iml
+*.log

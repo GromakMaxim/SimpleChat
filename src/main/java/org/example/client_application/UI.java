@@ -121,4 +121,8 @@ public class UI extends JFrame {
         });
         setVisible(true);// отображаем форму
     }
+
+    public String getClientName() {
+        return clientName;
+    }
 }
