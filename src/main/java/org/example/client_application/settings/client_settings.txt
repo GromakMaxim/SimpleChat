@@ -1,0 +1,6 @@
+server_port:26999;
+server_host:localhost;
+window_x:600;
+window_y:300;
+window_width:500;
+window_height:500;

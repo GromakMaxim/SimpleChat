@@ -3,7 +3,9 @@ package org.example.client_application;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /*эксперименты со swing!*/
 public class UI extends JFrame {
@@ -35,9 +37,12 @@ public class UI extends JFrame {
         return numberOfClientsLabel;
     }
 
-    public UI(final Client client) {
+    public UI(final Client client) throws FileNotFoundException, UnsupportedEncodingException {
         // Задаём настройки элементов на форме
-        this.setBounds(600, 300, 600, 500);
+        this.setBounds(client.getWindowXParameterFromSettingsFile(),
+                client.getWindowYParameterFromSettingsFile(),
+                client.getWindowWidthParameterFromSettingsFile(),
+                client.getWindowHeightParameterFromSettingsFile());
         this.setTitle("Client");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.messageTextArea = new JTextArea();
