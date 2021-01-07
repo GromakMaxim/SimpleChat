@@ -37,12 +37,12 @@ public class UI extends JFrame {
         return numberOfClientsLabel;
     }
 
-    public UI(final Client client) throws FileNotFoundException, UnsupportedEncodingException {
+    public UI(final Client client, final SettingsFileHandler settingsFileHandler) throws FileNotFoundException, UnsupportedEncodingException {
         // Задаём настройки элементов на форме
-        this.setBounds(client.getWindowXParameterFromSettingsFile(),
-                client.getWindowYParameterFromSettingsFile(),
-                client.getWindowWidthParameterFromSettingsFile(),
-                client.getWindowHeightParameterFromSettingsFile());
+        this.setBounds(settingsFileHandler.getWindowXParameterFromSettingsFile(),
+                settingsFileHandler.getWindowYParameterFromSettingsFile(),
+                settingsFileHandler.getWindowWidthParameterFromSettingsFile(),
+                settingsFileHandler.getWindowHeightParameterFromSettingsFile());
         setTitle("This magnificent chat was made by Gromak Maxim");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         messageTextArea = new JTextArea();
@@ -118,16 +118,12 @@ public class UI extends JFrame {
                     client.getOutMessage().println("##session##end##");
                     client.getOutMessage().flush();
                     client.getOutMessage().close();
-                    client.getClientSocket().close();
+                    settingsFileHandler.getClientSocket().close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
         });
         setVisible(true);// отображаем форму
-    }
-
-    public String getClientName() {
-        return clientName;
     }
 }

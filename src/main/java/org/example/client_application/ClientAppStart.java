@@ -1,10 +1,9 @@
 package org.example.client_application;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 public class ClientAppStart {
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
-        new Client();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        new Client(new SettingsFileHandler());
     }
 }
