@@ -43,17 +43,17 @@ public class UI extends JFrame {
                 client.getWindowYParameterFromSettingsFile(),
                 client.getWindowWidthParameterFromSettingsFile(),
                 client.getWindowHeightParameterFromSettingsFile());
-        this.setTitle("Client");
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.messageTextArea = new JTextArea();
-        this.messageTextArea.setEditable(false);
-        this.messageTextArea.setLineWrap(true);
-        this.numberOfClientsLabel = new JLabel("Количество участников: ");
-        this.bottomPanel = new JPanel(new BorderLayout());
-        this.sendMessageButton = new JButton("Отправить");
-        this.scrollBar = new JScrollPane(messageTextArea);
-        this.messageTextField = new JTextField("Введите ваше сообщение: ");
-        this.nameTextField = new JTextField("Введите ваше имя: ");
+        setTitle("This magnificent chat was made by Gromak Maxim");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        messageTextArea = new JTextArea();
+        messageTextArea.setEditable(false);
+        messageTextArea.setLineWrap(true);
+        numberOfClientsLabel = new JLabel("Количество участников: ");
+        bottomPanel = new JPanel(new BorderLayout());
+        sendMessageButton = new JButton("Отправить");
+        scrollBar = new JScrollPane(messageTextArea);
+        messageTextField = new JTextField("Введите ваше сообщение: ");
+        nameTextField = new JTextField("Введите ваше имя: ");
 
         this.add(scrollBar, BorderLayout.CENTER);
         this.add(numberOfClientsLabel, BorderLayout.NORTH);
@@ -110,7 +110,7 @@ public class UI extends JFrame {
                     // здесь проверяем, что имя клиента непустое и не равно значению по умолчанию
                     if (!clientName.isEmpty() && !clientName.equals("Введите ваше имя: ")) {
                         client.getOutMessage().println(clientName + " вышел из чата!");
-                    } else {
+                    } else{
                         client.getOutMessage().println("Участник вышел из чата, так и не представившись!");
                     }
 

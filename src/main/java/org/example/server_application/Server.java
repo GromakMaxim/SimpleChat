@@ -9,10 +9,9 @@ import java.util.ArrayList;
 public class Server {
     private static final Logger log = Logger.getLogger(Server.class);
     // порт, который будет прослушивать наш сервер
-    static final int PORT = 26999;
+    static final int PORT = 25999;
     // список клиентов, которые будут подключаться к серверу
     private ArrayList<ClientHandler> clients = new ArrayList<>();
-
     public Server() {
         // сокет клиента, это некий поток, который будет подключаться к серверу
         // по адресу и порту

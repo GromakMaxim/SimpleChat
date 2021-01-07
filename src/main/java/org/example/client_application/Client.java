@@ -28,14 +28,17 @@ public class Client {
     }
 
     // конструктор
-    public Client() throws FileNotFoundException, UnsupportedEncodingException {
-        try {
-            // подключаемся к серверу
-            clientSocket = new Socket(getServerHostParameterFromSettingsFile(), Integer.parseInt(getServerPortParameterFromSettingsFile()));//1-localhost, 2-данные из файла
-            inMessage = new Scanner(clientSocket.getInputStream());
-            outMessage = new PrintWriter(clientSocket.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public Client() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
+        while (true){// пробуем подключиться к серверу раз в 5 секунд, в случае неудачи ругаемся в консоли
+            try {
+                clientSocket = new Socket(getServerHostParameterFromSettingsFile(), Integer.parseInt(getServerPortParameterFromSettingsFile()));//1-localhost, 2-данные из файла
+                inMessage = new Scanner(clientSocket.getInputStream());
+                outMessage = new PrintWriter(clientSocket.getOutputStream(), true);
+                break;
+            } catch (IOException e) {
+                System.err.println("ConnectException: Ошибка подключения, сервер недоступен");
+                Thread.sleep(5000);
+            }
         }
         this.graphicalInterface = new UI(this);
         // в отдельном потоке начинаем работу с сервером
@@ -80,40 +83,42 @@ public class Client {
     }
 
     //прочитать порт сервера
-    private String getServerPortParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    String getServerPortParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String server_port = "server_port";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return readSettingsFileAndGetParameter(server_port);
     }
 
     //прочитать хост
-    private String getServerHostParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    String getServerHostParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String server_host = "server_host";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return readSettingsFileAndGetParameter(server_host);
     }
 
     //прочитать параметр окна
-    public int getWindowXParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    int getWindowXParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String window_x = "window_x";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return Integer.parseInt(readSettingsFileAndGetParameter(window_x));
     }
+
     //прочитать параметр окна
-    public int getWindowYParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    int getWindowYParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String window_y = "window_y";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return Integer.parseInt(readSettingsFileAndGetParameter(window_y));
     }
+
     //прочитать ширину окна
-    public int getWindowWidthParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    int getWindowWidthParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String window_width = "window_width";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return Integer.parseInt(readSettingsFileAndGetParameter(window_width));
     }
 
     //прочитать высоту окна
-    public int getWindowHeightParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    int getWindowHeightParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         String window_height = "window_height";
         checkSettingsFileExistenceOrCreateDefaultFile();
         return Integer.parseInt(readSettingsFileAndGetParameter(window_height));
@@ -128,7 +133,7 @@ public class Client {
     }
 
     //достаём заданный параметр из файла с настройками
-    private String readSettingsFileAndGetParameter(String parameter) {
+    String readSettingsFileAndGetParameter(String parameter) {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fin = new FileInputStream(clientSettingsFilePath)) {
             int i = -1;
@@ -141,8 +146,8 @@ public class Client {
         String fileString = sb.toString();
         String[] fileLines = fileString
                 .replace(" ", "")//очистить пробелы, переносы строки и пр
-                .replace("\r","")
-                .replace("\n","")
+                .replace("\r", "")
+                .replace("\n", "")
                 .trim()
                 .split(";");//дробим файл по разделителям
         for (String line : fileLines) {
@@ -154,7 +159,7 @@ public class Client {
     }
 
     //создадим файл с настройками по умолчанию
-    private void createDefaultSettingsFileIfNotExist(String path) throws FileNotFoundException, UnsupportedEncodingException {
+    void createDefaultSettingsFileIfNotExist(String path) throws FileNotFoundException, UnsupportedEncodingException {
         PrintWriter writer = new PrintWriter(path, "UTF-8");
         //укажем настройки по умолчанию
         writer.println("server_port:25999;");//порт
