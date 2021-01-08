@@ -7,15 +7,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-import static java.util.Calendar.*;
-
 public class Client {
     private final UI graphicalInterface;
     private Scanner inMessage;// входящее сообщение
     private PrintWriter outMessage;// исходящее сообщение
 
-    public Client(final SettingsFileHandler settingsFileHandler) throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
+    public Client(final SettingsFileHandler settingsFileHandler) throws IOException, InterruptedException {
             try {
+                settingsFileHandler.initClientSocket();
                 inMessage = new Scanner(settingsFileHandler.getClientSocket().getInputStream());
                 outMessage = new PrintWriter(settingsFileHandler.getClientSocket().getOutputStream(), true);
             } catch (IOException e) {

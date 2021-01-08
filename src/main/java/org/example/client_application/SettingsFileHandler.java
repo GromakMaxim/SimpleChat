@@ -5,25 +5,23 @@ import java.net.ConnectException;
 import java.net.Socket;
 
 public class SettingsFileHandler {
-    private final Socket clientSocket;// клиентский сокет
+    private Socket clientSocket = null;// клиентский сокет
     private final String clientSettingsFilePath = "src/main/java/org/example/client_application/settings/client_settings.txt";
 
     public Socket getClientSocket() {
         return clientSocket;
     }
 
-    public SettingsFileHandler() throws IOException {
-        this.clientSocket = initClientSocket();
-    }
-
     Socket initClientSocket() throws IOException {
         while (true) {
             try {
-                return new Socket(getServerHostParameterFromSettingsFile(), Integer.parseInt(getServerPortParameterFromSettingsFile()));//1-localhost, 2-данные из файла
+                this.clientSocket =  new Socket(getServerHostParameterFromSettingsFile(), Integer.parseInt(getServerPortParameterFromSettingsFile()));//1-localhost, 2-данные из файла
+                break;
             } catch (ConnectException connectException) {
                 System.err.println("ConnectException: сервер недоступен!");
             }
         }
+        return null;
     }
 
     //прочитать порт сервера

@@ -10,9 +10,9 @@ import java.io.UnsupportedEncodingException;
 /*эксперименты со swing!*/
 public class UI extends JFrame {
     //элементы формы
-    private JTextField messageTextField;
-    private JTextField nameTextField;
-    private JTextArea messageTextArea;
+    private JTextField messageTextField;//поле, куда вводится сообщение
+    private JTextField nameTextField;//поле с именем пользователя
+    private JTextArea messageTextArea;//поле с перепиской
 
     private JLabel numberOfClientsLabel; //строка с количеством подключенных участников
     private JPanel bottomPanel;//нижняя панель
