@@ -5,13 +5,12 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class SettingsFileHandlerTest {
     private final String path = "src/main/java/org/example/client_application/settings/client_settings.txt";
     SettingsFileHandler sfh = new SettingsFileHandler();
-    public SettingsFileHandlerTest() throws IOException {
+    public SettingsFileHandlerTest() {
     }
 
     @Test
@@ -43,28 +42,27 @@ public class SettingsFileHandlerTest {
     }
 
     @Test
-    public void test_getWindowHeightParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
+    public void test_getWindowHeightParameterFromSettingsFile() throws Exception {
         int actual = sfh.getWindowHeightParameterFromSettingsFile();
-        Assert.assertNotEquals(0, actual);
+        if (actual < 100) throw new IllegalArgumentException();
     }
 
     @Test
     public void test_getWindowWidthParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         int actual = sfh.getWindowWidthParameterFromSettingsFile();
-        Assert.assertNotEquals(0, actual);
+        if (actual < 100) throw new IllegalArgumentException();
     }
 
-    //
     @Test
     public void test_getWindowYParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         int actual = sfh.getWindowYParameterFromSettingsFile();
-        Assert.assertNotEquals(0, actual);
+        if (actual < 0) throw new IllegalArgumentException();
     }
 
     @Test
     public void test_getWindowXParameterFromSettingsFile() throws FileNotFoundException, UnsupportedEncodingException {
         int actual = sfh.getWindowXParameterFromSettingsFile();
-        Assert.assertNotEquals(0, actual);
+        if (actual < 0) throw new IllegalArgumentException();
     }
 
     @Test
