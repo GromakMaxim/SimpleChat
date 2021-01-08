@@ -24,7 +24,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    // Переопределяем метод run(), который вызывается когда происходит new Thread(client_application).start();
     @Override
     public void run() {
         try {
