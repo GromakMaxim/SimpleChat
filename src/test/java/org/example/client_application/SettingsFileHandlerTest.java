@@ -8,14 +8,14 @@ import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
 public class SettingsFileHandlerTest {
-    private final String path = "src/main/java/org/example/client_application/settings/client_settings.txt";
+    private final String path = "client_settings.txt";
     SettingsFileHandler sfh = new SettingsFileHandler();
     public SettingsFileHandlerTest() {
     }
 
     @Test
     public void test_settingsFileIsExistWithWrongPath() {
-        File settingsFile = new File("src/main/java/org/example/client_application/settings/_settings.txt");
+        File settingsFile = new File("_settings.txt");
         Assert.assertFalse(settingsFile.exists());
     }
 
