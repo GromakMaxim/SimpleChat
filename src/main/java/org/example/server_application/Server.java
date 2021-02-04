@@ -12,18 +12,24 @@ public class Server {
     private static final Logger log = Logger.getLogger(Server.class);
     private final int PORT = 25999;// порт, который будет прослушивать наш сервер
     private CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();// список клиентов, которые будут подключаться к серверу
-    private Socket clientSocket;// сокет клиента, это некий поток, который будет подключаться к серверу по адресу и порту
-    private ServerSocket serverSocket;// серверный сокет
-    private ClientHandler clientHandler;//обработчик подключения клиента
 
     public void start() throws IOException {
+        Socket clientSocket = null;
+        ServerSocket serverSocket = null;
+        ClientHandler clientHandler;//обработчик подключения клиента
         try {
-            serverSocket = initServerSocket();// создаём серверный сокет на определенном порту
+            serverSocket = new ServerSocket(PORT);// создаём серверный сокет на определенном порту
             System.out.println("Сервер запущен!");
             log.info(" server started ");
             while (true) {
-                acceptNewClient();// таким образом ждём подключений от сервера
-                clientHandler = initClientHandler();// создаём обработчик клиента, который подключился к серверу
+                try {// таким образом ждём подключений от сервера
+                    clientSocket = serverSocket.accept();// сокет клиента, это некий поток, который будет подключаться к серверу по адресу и порту
+                } catch (SocketException socketException) {
+                    log.warn("connection lost");
+                } finally {
+
+                }
+                clientHandler = new ClientHandler(clientSocket, this);// создаём обработчик клиента, который подключился к серверу
                 clients.add(clientHandler);
                 log.info(" added participant. participants number: " + clients.size());
                 new Thread(clientHandler).start();// каждое подключение клиента обрабатываем в новом потоке
@@ -31,28 +37,10 @@ public class Server {
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            stop();
+            stop(clientSocket, serverSocket);
             System.out.println("Сервер остановлен");
             log.warn("server stopped");
         }
-    }
-
-    private void acceptNewClient() throws IOException {
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (SocketException socketException) {
-            log.warn("connection lost");
-        } finally {
-
-        }
-    }
-
-    private ClientHandler initClientHandler() {
-        return new ClientHandler(clientSocket, this);
-    }
-
-    private ServerSocket initServerSocket() throws IOException {
-        return new ServerSocket(PORT);
     }
 
     // отправляем сообщение всем клиентам
@@ -68,7 +56,7 @@ public class Server {
         clients.remove(client);
     }
 
-    public void stop() throws IOException {
+    public void stop(Socket clientSocket, ServerSocket serverSocket) throws IOException {
         clientSocket.close();
         serverSocket.close();
     }
