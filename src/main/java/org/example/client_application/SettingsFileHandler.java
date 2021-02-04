@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class SettingsFileHandler {
     private Socket clientSocket = null;// клиентский сокет
-    private final String clientSettingsFilePath = "src/main/java/org/example/client_application/settings/client_settings.txt";
+    private final String clientSettingsFilePath = "client_settings.txt";
 
     public Socket getClientSocket() {
         return clientSocket;
