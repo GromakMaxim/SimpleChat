@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
     private static final Logger log = Logger.getLogger(Server.class);
     private final int PORT = 25999;// порт, который будет прослушивать наш сервер
-    private ArrayList<ClientHandler> clients = new ArrayList<>();// список клиентов, которые будут подключаться к серверу
+    private CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();// список клиентов, которые будут подключаться к серверу
     private Socket clientSocket;// сокет клиента, это некий поток, который будет подключаться к серверу по адресу и порту
     private ServerSocket serverSocket;// серверный сокет
     private ClientHandler clientHandler;//обработчик подключения клиента
